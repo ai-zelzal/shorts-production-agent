@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>وكيل إنتاج الشورتات — Shorts Production Agent</title>
+<style>
+  :root{--gold:#d4af37;--gold2:#f1d47a;--bg:#0b0b0d;--card:#15151a;--line:#2a2a33;--txt:#f2ead2;--dim:#a79f8a}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--txt);font-family:"Segoe UI",Tahoma,Arial,sans-serif}
+  header{padding:28px 18px 10px;text-align:center}
+  h1{margin:0;font-size:30px;color:var(--gold);letter-spacing:.5px}
+  .sub{color:var(--dim);margin-top:6px;font-size:14px}
+  .badge{display:inline-block;border:1px solid var(--gold);color:var(--gold2);border-radius:999px;padding:2px 12px;font-size:12px;margin-top:10px}
+  main{max-width:980px;margin:0 auto;padding:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px}
+  label{display:block;font-size:13px;color:var(--gold2);margin:12px 0 6px}
+  input,select,textarea{width:100%;background:#0e0e12;border:1px solid var(--line);border-radius:10px;color:var(--txt);padding:11px;font-size:15px;font-family:inherit}
+  textarea{min-height:74px;resize:vertical}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  button{background:linear-gradient(180deg,var(--gold2),var(--gold));color:#191300;border:0;border-radius:12px;padding:13px 20px;font-size:16px;font-weight:700;cursor:pointer;width:100%;margin-top:16px}
+  button:disabled{opacity:.55;cursor:wait}
+  .ghost{background:none;border:1px solid var(--gold);color:var(--gold2);width:auto;padding:8px 14px;font-size:13px;margin-top:8px}
+  h2{color:var(--gold);font-size:20px;margin:4px 0 10px}
+  h3{color:var(--gold2);font-size:16px;margin:14px 0 6px}
+  .hook{font-size:18px;line-height:1.7}
+  .en{direction:ltr;text-align:left;color:#e8e2cf}
+  .scene{border:1px solid var(--line);border-radius:12px;padding:12px;margin:10px 0;background:#101016}
+  .scene b{color:var(--gold)}
+  .prompt{direction:ltr;text-align:left;background:#0a0a0e;border:1px dashed #3a3a44;border-radius:8px;padding:8px;font-size:13px;white-space:pre-wrap;word-break:break-word}
+  .scene img{width:100%;max-width:340px;border-radius:10px;margin-top:10px;border:1px solid var(--line)}
+  .tag{display:inline-block;background:#22202a;border:1px solid var(--line);border-radius:999px;padding:3px 10px;margin:3px;font-size:12.5px}
+  .err{color:#ff9c9c;white-space:pre-wrap}
+  .spin{color:var(--gold2);font-size:15px}
+  ul{margin:6px 0;padding-inline-start:20px;line-height:1.8}
+  .titles li{margin-bottom:4px}
+  footer{text-align:center;color:var(--dim);font-size:12.5px;padding:14px}
+</style>
+</head>
+<body>
+<header>
+  <h1>وكيل إنتاج الشورتات</h1>
+  <div class="sub">Shorts Production Agent — من فكرة وتراك موسيقي إلى حزمة إنتاج كاملة جاهزة للتنفيذ</div>
+  <div class="badge">Meta Global AI Developer Hackathon · Powered by Muse Wonder &amp; Muse Spark · Muse Image for stills</div>
+</header>
+<main>
+  <div class="card">
+    <label>الفكرة في سطر واحد</label>
+    <textarea id="idea">بطل شعبي مصري بملامح فرعونية مهيبة يقف فوق سطح في القاهرة القديمة وقت الغروب، عباية سودا بتطير مع الهوا وطاقة ملك الشارع</textarea>
+    <div class="row">
+      <div><label>التراك / الفنان</label><input id="track" value="حمو المرشدي"></div>
+      <div><label>المزاج</label><input id="mood" value="ملحمي، واثق، هيبة"></div>
+    </div>
+    <div class="row">
+      <div><label>المدة (ثواني)</label><input id="duration" type="number" value="30"></div>
+      <div><label>موديل التفكير</label>
+        <select id="model">
+          <option value="muse-wonder-1.0">Muse Wonder 1.0 — الأقوى للإبداع</option>
+          <option value="muse-spark-1.3" selected>Muse Spark 1.3 — متوازن</option>
+          <option value="muse-spark-1.3-contributor">Muse Spark 1.3 Contributor — الأسرع</option>
+        </select></div>
+    </div>
+    <label>وصف البطل الموحد (اختياري — للتثبيت في كل المشاهد)</label>
+    <input id="hero" value="a powerful Egyptian man in his 40s, short dark hair, black sunglasses, black flowing cloak, gold accents">
+    <button id="go">ابنِ حزمة الإنتاج</button>
+    <div id="status" style="margin-top:10px"></div>
+  </div>
+  <div id="out"></div>
+</main>
+<footer>Built for the Meta Global AI Developer Hackathon — Build for Your World · Z E L Z A L</footer>
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+$("go").onclick=async()=>{
+  $("go").disabled=true; $("out").innerHTML="";
+  $("status").innerHTML='<span class="spin">المخرج بيفكر وبيبني الحزمة… العملية دي ممكن تاخد دقيقة.</span>';
+  try{
+    const r=await fetch("/api/pack",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({
+      idea:$("idea").value,track:$("track").value,mood:$("mood").value,duration:$("duration").value,hero:$("hero").value,model:$("model").value})});
+    const d=await r.json(); if(!r.ok||d.error) throw new Error(d.error||r.status);
+    render(d); $("status").innerHTML='<span class="spin">اتبنت بالموديل '+esc(d.model)+' — توكنات: '+esc(d.usage?d.usage.total_tokens:"؟")+'</span>';
+  }catch(e){ $("status").innerHTML='<span class="err">'+esc(e.message)+'</span>'; }
+  $("go").disabled=false;
+};
+function render(d){
+  const p=d.pack; let h='';
+  h+='<div class="card"><h2>الهوك — الثانية صفر</h2><div class="hook">'+esc(p.hook.ar)+'</div><div class="hook en">'+esc(p.hook.en)+'</div><div>المشهد الافتتاحي: '+esc(p.hook.visual)+'</div><h3>الفكرة الحاكمة</h3><div>'+esc(p.concept)+'</div></div>';
+  h+='<div class="card"><h2>المشاهد وبرومبتات التنفيذ</h2>';
+  (p.scenes||[]).forEach((s,i)=>{
+    h+='<div class="scene"><b>مشهد '+esc(s.n)+' · ثانية '+esc(s.seconds)+'</b> — كاميرا: '+esc(s.camera)+' · صوت: '+esc(s.audio_cue)
+      +'<h3>برومبت الصورة الثابتة</h3><div class="prompt" id="sp'+i+'">'+esc(s.still_prompt)+'</div>'
+      +'<h3>برومبت التحريك</h3><div class="prompt">'+esc(s.motion_prompt)+'</div>'
+      +'<button class="ghost" onclick="genImg('+i+')">ولّد صورة المشهد ده بـ Muse Image</button><div id="img'+i+'"></div></div>';
+  });
+  h+='</div>';
+  if(p.voiceover&&(p.voiceover.ar||p.voiceover.en))
+    h+='<div class="card"><h2>التعليق الصوتي</h2><div class="hook">'+esc(p.voiceover.ar)+'</div><div class="hook en">'+esc(p.voiceover.en)+'</div></div>';
+  h+='<div class="card"><h2>العناوين — اختار واحد</h2><ul class="titles">'+(p.titles||[]).map(t=>'<li>'+esc(t.ar)+' <span class="en">· '+esc(t.en)+'</span></li>').join("")+'</ul>'
+    +'<h3>الكلمات المفتاحية</h3>'+(p.keywords||[]).map(k=>'<span class="tag">'+esc(k)+'</span>').join("")
+    +'<h3>الهاشتاجات</h3>'+(p.hashtags||[]).map(k=>'<span class="tag">'+esc(k)+'</span>').join("")+'</div>';
+  h+='<div class="card"><h2>خطوات التنفيذ بالترتيب</h2><ul>'+(p.checklist||[]).map(c=>'<li>'+esc(c)+'</li>').join("")+'</ul></div>';
+  $("out").innerHTML=h;
+}
+async function genImg(i){
+  const box=$("img"+i); box.innerHTML='<span class="spin">بيولّد الصورة…</span>';
+  try{
+    const r=await fetch("/api/image",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({prompt:$("sp"+i).textContent})});
+    const d=await r.json(); if(!r.ok||d.error) throw new Error(d.error||r.status);
+    box.innerHTML='<img src="'+d.image+'" alt="scene still">';
+  }catch(e){ box.innerHTML='<span class="err">'+esc(e.message)+'</span>'; }
+}
+</script>
+</body>
+</html>
